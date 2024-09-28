@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>日常生活</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE;chrome=1">
+    <link rel='stylesheet' id='carousel-css' href='/live/pc/skin/css/owl.carousel.css' type='text/css' media='all'>
+    <link rel='stylesheet' id='mcustomscrollbar-css' href='/live/pc/skin/css/jquery.mcustomscrollbar.min.css'
+        type='text/css' media='all'>
+    <link rel='stylesheet' id='animate-css' href='/live/pc/skin/css/animate.css' type='text/css' media='all'>
+    <link rel='stylesheet' id='fontello-css' href='/live/pc/skin/css/fontello.css' type='text/css' media='all'>
+    <link rel='stylesheet' id='bootstrap-css' href='/live/pc/skin/css/bootstrap.min.css' type='text/css' media='all'>
+    <link rel='stylesheet' id='Grace-style-css' href='/live/pc/skin/css/style.css' type='text/css' media='all'>
+    <script type='text/javascript' src='/live/pc/skin/js/jquery.js'></script>
+    <script type='text/javascript' src='/live/pc/skin/js/jquery-migrate.min.js'></script>
+    <link rel="icon" href="/img/favicon.icon.png">
+    <!--[if lt IE 9]>
+    <script type='text/javascript' src='/live/pc/skin/js/html5shiv.js'></script>
+    <![endif]-->
+    <!--[if lt IE 9]>
+    <script type='text/javascript' src='/live/pc/skin/js/respond.min.js'></script>
+    <![endif]-->
+</head>
+
+<body class="home blog off-canvas-nav-left">
+    <div id="header" class=" navbar-fixed-top">
+        <div class="container">
+            <h1 class="logo"> <a href="/" title="xueqi"
+                    style="background-image: url(/live/uploads/allimg/20190220/441c7e19aabd2e3a51344204daa4f753.png);"></a>
+            </h1>
+
+            <div class="right-nav">
+                <div class="js-toggle-message">
+                    <button id="sitemessage" type="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"> <i class="icon-megaphone"></i> </button>
+                    <div class="dropdown-menu" role="menu" aria-labelledby="sitemessage">
+                        <ul>
+                            <li class="first"><span class="time">2024-9-22 </span><a href="#">成功无捷径，稳步向前行。</a></li>
+                            <% hot.forEach(e=> {%>
+                                <li><span class="time">
+                                        <%=e.time %>
+                                    </span><a href="#">
+                                        <%=e.description %>
+                                    </a></li>
+                                <% }); %>
+                        </ul>
+                        <div class="more-messages"><a href="#">更多</a></div>
+                    </div>
+                </div>
+                <button class="js-toggle-search"><i class=" icon-search"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-content">
+
+        <div class="main-content">
+            <div class="container">
+                <div class="row">
+                    <div class="article col-xs-12 col-sm-8 col-md-8">
+                        <div class="ajax-load-box posts-con" id="index001">
+                            <% content.forEach(e=> {%>
+                                <div class="ajax-load-con content excerpt-one">
+                                    <div class="content-box posts-image-box">
+                                        <div class="posts-default-title">
+                                            <div class="post-entry-categories">
+                                                <% e.tag.forEach(ee=> {%>
+                                                    <a href='#'>
+                                                        <%=ee %>
+                                                    </a>
+                                                    <% }); %>
+                                            </div>
+                                            <h2><a href="#">
+                                                    <%=e.description %>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                        <p class="focus">
+                                            <a href="#" class="thumbnail">
+                                                <span class="item"><span class="thumb-span">
+                                                        <img src="/live/video/<%=e.img %>" alt="<%=e.title %>"
+                                                            class="thumb">
+                                                    </span></span>
+                                            </a>
+                                        </p>
+                                        <div class="posts-default-content">
+                                            <div class="posts-text">
+                                                <%=e.details %>
+
+                                            </div>
+                                            <div class="posts-default-info">
+                                                <ul>
+                                                    <li class="post-author">
+                                                        <div class="avatar"><img alt=''
+                                                                srcset='/live/pc/skin/img/admin.png'
+                                                                class='avatar avatar-96 photo' height='96' width='96'>
+                                                        </div>
+                                                        <a>
+                                                            <%=e.publisher %>
+                                                        </a>
+                                                    </li>
+                                                    <li class="ico-cat"><i class="icon-list-2"></i> <a
+                                                            href="zan_feng.html">
+                                                            <%=e.title %>
+                                                        </a></li>
+                                                    <li class="ico-time"><i class="icon-clock-1"></i>
+                                                        <%=e.time %>
+                                                    </li>
+                                                    <li class="ico-like"><i class="icon-heart"></i>
+                                                        <%=e.like_num %>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }); %>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div id="ajax-load-posts">
+                            <a class="button" href="javascript:void(0);" data-page="1" data-tips="没有数据了" data-loading=""
+                                data-root_dir="/6679" onclick="tag_arcpagelist_multi(this,'index001',5);">点击加载更多</a>
+                        </div>
+                        <script type="text/javascript" src="/live/public/static/common/js/tag_arcpagelist.js"></script>
+                    </div>
+                    <div class="sidebar col-xs-12 col-sm-4 col-md-4">
+
+                        <div class="widget widget_suxingme_hotpost">
+                            <h3><span>轶事</span></h3>
+                            <ul class="widget_suxingme_post">
+                                <% hot.forEach(e=> {%>
+                                    <li>
+                                        <a href="#">
+                                            <div class="overlay"></div>
+                                            <img class="thumbnail" src="/live/img/<%=e.image %>" alt="<%=e.title %>">
+                                            <div class="title">
+                                                <div class="entry-meta"><span>
+                                                        <%=e.time %>
+                                                    </span></div>
+                                                <h4>
+                                                    <%=e.description %>
+                                                </h4>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <% }); %>
+                            </ul>
+                        </div>
+                        <div class="widget suxingme_tag">
+                            <h3><span>全部标签</span></h3>
+                            <div class="widge_tags">
+                                <div class="tag-items">
+                                    <% tag.forEach(e=> {%>
+                                        <a href="#" class="tag-item">
+                                            <%=e %>
+                                        </a>
+                                        <% }); %>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div id="footer" class="two-s-footer clearfix">
+        <div class="footer-box">
+            <div class="container">
+
+
+                <div class="copyright-footer">
+                    <p>到底啦！ <a href="javascript:;" target="_self">Powered by HTML</a>
+                        &nbsp;&nbsp;<a href="javascript:;" rel="nofollow">正在备案中...</a></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="search-form">
+        <form class="sidebar-search" method="get" action="#">
+            <input type="hidden" name="typeid" id="typeid" value=""><input type="hidden" name="channel" id="channel"
+                value="">
+            <div class="search-form-inner">
+                <div class="search-form-box">
+                    <input class="form-search" type="text" name="keywords" placeholder="功能未实现">
+                    <button type="submit" id="btn-search"><i class="icon-search"></i> </button>
+                </div>
+
+            </div>
+        </form>
+        <div class="close-search"> <span class="close-top"></span> <span class="close-bottom"></span> </div>
+    </div>
+
+
+    <!-- 应用插件标签 start -->
+    <!-- 应用插件标签 end -->
+    <script type='text/javascript' src='/live/pc/skin/js/jquery.sticky-kit.min.js'></script>
+    <script type='text/javascript' src='/live/pc/skin/js/bootstrap.min.js'></script>
+    <script type='text/javascript' src='/live/pc/skin/js/jquery.mcustomscrollbar.concat.min.js'></script>
+    <script type='text/javascript'>
+        /* <![CDATA[ */
+        var suxingme_url = { "roll": "1", "headfixed": "1", "slidestyle": "index_slide_sytle_4", "wow": "1" };
+        /* ]]> */
+    </script>
+    <script type='text/javascript' src='/live/pc/skin/js/suxingme.js'></script>
+    <script type='text/javascript' src='/live/pc/skin/js/jquery.bootstrap-autohidingnavbar.min.js'></script>
+    <script type='text/javascript' src='/live/pc/skin/js/owl.carousel.min.js'></script>
+    <script type='text/javascript' src='/live/pc/skin/js/wow.min.js'></script>
+</body>
+
+</html>

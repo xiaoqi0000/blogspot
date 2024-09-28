@@ -1,0 +1,19 @@
+@media (min-width: 992px) {
+    .col-md-8 {
+        width: 100%;
+    }
+}
+
+.Mborder {
+    border-radius: 30px;
+}
+
+.Mimg {
+    width: 40px;
+    height: 40px;
+}
+
+.Mspan {
+    margin-left: 10px;
+
+}

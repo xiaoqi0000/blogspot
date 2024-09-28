@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: rgb(30, 49, 71); */
+    border-radius: 10px;
+}
+
+main svg {
+    width: 100%;
+    height: 100%;
+}
+
+.txt {
+    font-family: 'fangsong';
+    font-weight: 900;
+    font-size: 40px;
+    letter-spacing: 3px;
+    fill: transparent;
+    stroke: url("#yanse");
+    stroke-width: 1.5px;
+    stroke-dasharray: 625;
+    stroke-dashoffset: 625;
+    animation: draw 5s linear infinite;
+}
+
+@keyframes draw {
+
+    0%,
+    5% {
+        stroke-dasharray: 625;
+        stroke-dashoffset: 625;
+    }
+
+    40%,
+    60% {
+        stroke-dasharray: 625;
+        stroke-dashoffset: 0;
+    }
+
+    100% {
+        stroke-dasharray: 625;
+        stroke-dashoffset: 625;
+    }
+}
