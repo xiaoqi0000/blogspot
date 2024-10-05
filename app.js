@@ -11,6 +11,7 @@ var panRouter = require('./routes/pan');
 var labRouter = require('./routes/lab');
 var autoxRouter = require('./routes/autox');
 var gameRouter = require('./routes/game');
+var timetableRouter = require('./routes/timetable');
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use('/pan', panRouter);
 app.use('/lab', labRouter);
 app.use('/autox', autoxRouter);
 app.use('/game', gameRouter);
+app.use('/timetable', timetableRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
