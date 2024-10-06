@@ -6,7 +6,7 @@ const info = require('../json/info.json');
 const lowdb = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 
-const adapter = new FileSync('../json/user.json');
+const adapter = new FileSync('json/user.json');
 const db = lowdb(adapter);
 
 
