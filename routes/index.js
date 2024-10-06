@@ -2,14 +2,7 @@ var express = require('express');
 var router = express.Router();
 const info = require('../json/info.json');
 
-//lowdb
-const lowdb = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
-
-const adapter = new FileSync('json/user.json');
-const db = lowdb(adapter);
-
-
+let db = require('../lowdb/db.js');
 /* GET home page. */
 router.get('/', function (req, res, next) {
   //获取数据
