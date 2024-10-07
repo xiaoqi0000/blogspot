@@ -55,7 +55,20 @@ cla.forEach(i => {
 		}
 	})
 });
+//如果是第六周,星期六上星期三的课
+if (weekNum == 6) {
+	let arr = [
+		{ className: "数据库原理与应用", classID: "08503338-04", classDay: "6", classRoom: "文华-5号教学楼-307", classTeacher: ["杨旭"], classWeek: ["6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"], classTime: "1" },
+		{ className: "计算机组成原理", classID: "08503339-04", classDay: "6", classRoom: "文华-6号教学楼-309", classTeacher: ["杜智宏"], classWeek: ["6", "7", "8", "9"], classTime: "2" },
+		{ className: "数据库原理与应用", classID: "08503338-04", classDay: "6", classRoom: "文华-4号教学楼-504", classTeacher: ["杨旭"], classWeek: ["6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"], classTime: "3" },
+		{ className: "中国近现代史纲要", classID: "00500301-16", classDay: "6", classRoom: "文华-5号教学楼-104", classTeacher: ["王玮玮"], classWeek: ["6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"], classTime: "4" },
+	]
+	arr.forEach(i => {
+		weekClass.push(i);
+	})
+	//console.log(weekClass);
 
+}
 
 
 //把这周的课程按照 l("1", "4", "f", "形式与政治", "L1-601（单周）"); 放在这里
@@ -66,7 +79,14 @@ for (let i = 0; i < weekClass.length; i++) {
 }
 
 function l(c, t, n, clsname, intext) {
-	var id = "info" + c + t, clsid = "info " + n; var elm = document.getElementById(id); if (t == "1") { var time = "08:00-09:50 "; } else if (t == "2") { var time = "10:00-11:40 "; } else if (t == "3") { var time = "14:30-16:05 "; } else if (t == "4") { var time = "16:15-17:50 "; } else if (t == "5") { var time = "18:00~ "; } else { var time = "~ "; };
+	var id = "info" + c + t, clsid = "info " + n; var elm = document.getElementById(id); if (t == "1") { var time = "08:20-10:50 "; } else if (t == "2") { var time = "10:20-12:00 "; } else if (t == "3") { var time = "14:10-15:50 "; } else if (t == "4") { var time = "16:10-17:50 "; } else if (t == "5") { var time = "19:00-20:40 "; } else { var time = "~ "; };
 	elm.innerHTML = time + "<div class='intext'>" + clsname + "</div>" + "<div class='intext'>" + intext + "</div>";
 	elm.className = clsid; elm.style.color = "#fff"; elm.style.display = "block"
 };
+
+//如果是第六周,在最后提示
+if (weekNum == 6) {
+	var PSSat = document.getElementById("info65");
+	PSSat.innerHTML = "PS：周六上星期三的课";
+}
+
