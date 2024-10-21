@@ -11,8 +11,6 @@ router.get('/', function (req, res, next) {
 
   // //更改数据
   db.set('indexNum', num + 1).write();
-
-
   res.render('index', info);
 });
 
