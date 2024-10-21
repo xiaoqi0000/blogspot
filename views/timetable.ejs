@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/timetable/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="/timetable/bootstrap-icons.css"> -->
+    <link rel="stylesheet" href="/timetable/style.css">
+    <link rel="shortcut icon" href="/timetable/timetable.png" type="image/x-icon">
+    <title>课程表</title>
+    <script>
+        function setDataToWindow(data) {
+            // 将 HTML 实体编码转换回正常字符
+            const decodedStr = data.replace(/&#34;/g, '"').replace(/&#39;/g, "'");
+            const obj = JSON.parse(decodedStr);
+            window.myData = obj.cla;
+        }
+        setDataToWindow(`<%=cla %>`);
+
+    </script>
+</head>
+
+<body>
+
+    <!-- head -->
+    <div class="container-fluid head">
+        <img width="33px" src="/timetable/resource/more.png" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" alt="更多">
+        <h3>课程表</h3>
+        <img id="eye" width="33px" src="/timetable/resource/close.png" alt="闭眼">
+    </div>
+
+
+    <!-- body -->
+    <div class="body">
+        <div class="show-one">
+            <div class="everyday">
+                <div class="card-head">
+                    今天
+                </div>
+                <div id="d0" class="card-body">
+                    <div class="card-item">
+                        <div>08:20 - 10:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>10:20 - 12:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>14:10 - 15:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>16:10 - 17:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>19:00 - 20:40</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="show-week">
+            <div class="everyday">
+                <div class="card-head">
+                    周一
+                </div>
+                <div id="d1" class="card-body">
+                    <div class="card-item">
+                        <div>08:20 - 10:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>10:20 - 12:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>14:10 - 15:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>16:10 - 17:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>19:00 - 20:40</div>
+                    </div>
+                </div>
+            </div>
+            <div class="everyday">
+                <div class="card-head">
+                    周二
+                </div>
+                <div id="d2" class="card-body">
+                    <div class="card-item">
+                        <div>08:20 - 10:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>10:20 - 12:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>14:10 - 15:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>16:10 - 17:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>19:00 - 20:40</div>
+                    </div>
+                </div>
+            </div>
+            <div class="everyday">
+                <div class="card-head">
+                    周三
+                </div>
+                <div id="d3" class="card-body">
+                    <div class="card-item">
+                        <div>08:20 - 10:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>10:20 - 12:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>14:10 - 15:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>16:10 - 17:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>19:00 - 20:40</div>
+                    </div>
+                </div>
+            </div>
+            <div class="everyday">
+                <div class="card-head">
+                    周四
+                </div>
+                <div id="d4" class="card-body">
+                    <div class="card-item">
+                        <div>08:20 - 10:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>10:20 - 12:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>14:10 - 15:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>16:10 - 17:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>19:00 - 20:40</div>
+                    </div>
+                </div>
+            </div>
+            <div class="everyday">
+                <div class="card-head">
+                    周五
+                </div>
+                <div id="d5" class="card-body">
+                    <div class="card-item">
+                        <div>08:20 - 10:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>10:20 - 12:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>14:10 - 15:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>16:10 - 17:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>19:00 - 20:40</div>
+                    </div>
+                </div>
+            </div>
+            <div class="everyday">
+                <div class="card-head">
+                    周六
+                </div>
+                <div id="d6" class="card-body">
+                    <div class="card-item">
+                        <div>08:20 - 10:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>10:20 - 12:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>14:10 - 15:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>16:10 - 17:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>19:00 - 20:40</div>
+                    </div>
+                </div>
+            </div>
+            <div class="everyday">
+                <div class="card-head">
+                    周日
+                </div>
+                <div id="d7" class="card-body">
+                    <div class="card-item">
+                        <div>08:20 - 10:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>10:20 - 12:00</div>
+                    </div>
+                    <div class="card-item">
+                        <div>14:10 - 15:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>16:10 - 17:50</div>
+                    </div>
+                    <div class="card-item">
+                        <div>19:00 - 20:40</div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <!-- 侧边栏 -->
+    <div class="offcanvas offcanvas-start" data-bs-scroll="false" tabindex="-1" id="offcanvasWithBothOptions"
+        aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">选择要查看第几周</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="list">第6周</div>
+            <div class="list">第7周</div>
+            <div class="list">第8周</div>
+            <div class="list">第9周</div>
+            <div class="list">第10周</div>
+            <div class="list">第11周</div>
+            <div class="list">第12周</div>
+            <div class="list">第13周</div>
+            <div class="list">第14周</div>
+            <div class="list">第15周</div>
+            <div class="list">第16周</div>
+            <div class="list">第17周</div>
+            <div class="list">第18周</div>
+        </div>
+    </div>
+    <script src="/timetable/bootstrap.min.js"></script>
+    <script src="/timetable/my.js"></script>
+</body>
+
+</html>

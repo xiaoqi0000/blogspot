@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/timetable/bootstrap.min.css">
+    <link rel="stylesheet" href="/timetable/ad.css">
+    <link rel="shortcut icon" href="/timetable/timetable.png" type="image/x-icon">
+    <title>课程表</title>
+</head>
+
+<body>
+    <!-- head -->
+    <div class="container-fluid head">
+        <h3>管理</h3>
+    </div>
+
+    <!-- body -->
+    <div class="body">
+        <form action="/timetable" method="post">
+            <input type="text" placeholder="code" name="code" class="form-control item" required id="exampleInputEmail1"
+                aria-describedby="emailHelp">
+            <select class="form-select item" name="type" aria-label="Default select example" required>
+                <option value="" selected>操作方式</option>
+                <option value="add">增加</option>
+                <option value="remove">删除</option>
+            </select>
+            <select class="form-select item" name="weeks" aria-label="Default select example" required>
+                <option value="" selected>第几周</option>
+                <option value="6">第六周</option>
+                <option value="7">第七周</option>
+                <option value="8">第八周</option>
+                <option value="9">第九周</option>
+                <option value="10">第十周</option>
+                <option value="11">第十一周</option>
+                <option value="12">第十二周</option>
+                <option value="13">第十三周</option>
+                <option value="14">第十四周</option>
+                <option value="15">第十五周</option>
+                <option value="16">第十六周</option>
+                <option value="17">第十七周</option>
+                <option value="18">第十八周</option>
+            </select>
+            <select class="form-select item" name="day" aria-label="Default select example" required>
+                <option value="" selected>星期几</option>
+                <option value="1">星期一</option>
+                <option value="2">星期二</option>
+                <option value="3">星期三</option>
+                <option value="4">星期四</option>
+                <option value="5">星期五</option>
+                <option value="6">星期六</option>
+                <option value="7">星期日</option>
+            </select>
+            <select class="form-select item" name="time" aria-label="Default select example" required>
+                <option value="" selected>第几节课</option>
+                <option value="1">一大节</option>
+                <option value="2">二大节</option>
+                <option value="3">三大节</option>
+                <option value="4">四大节</option>
+                <option value="5">五大节</option>
+            </select>
+            <select class="form-select item" name="className" aria-label="Default select example" required>
+                <option value="" selected>课程名</option>
+                <option value="RFID技术与应用">RFID技术与应用</option>
+                <option value="物联网信息安全技术">物联网信息安全技术</option>
+                <option value="计算机应用技能实训">计算机应用技能实训</option>
+                <option value="形势与政策">形势与政策</option>
+                <option value="中国近现代史纲要">中国近现代史纲要</option>
+                <option value="数据库原理与应用">数据库原理与应用</option>
+                <option value="计算机组成原理">计算机组成原理</option>
+                <option value="军事理论">军事理论</option>
+            </select>
+            <div class="room">
+                <p>教室</p>
+                <select class="form-select item" name="classType" aria-label="Default select example" required>
+                    <option value="" selected>教室类型</option>
+                    <option value="教学楼">教学楼</option>
+                    <option value="实训楼">实训楼</option>
+                </select>
+                <input type="number" placeholder="几号楼" name="classBuliding" class="form-control item" required
+                    id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="number" placeholder="多少教室" name="classRoom" class="form-control item" required
+                    id="exampleInputEmail1" aria-describedby="emailHelp">
+
+            </div>
+            <div class="mbt">
+                <button type="reset" class="btn btn-secondary btn-lg">清空</button>
+                <button type="submit" class="btn btn-primary btn-lg">提交</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="/timetable/bootstrap.min.js"></script>
+</body>
+
+</html>

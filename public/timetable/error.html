@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/timetable/bootstrap.min.css">
+    <link rel="shortcut icon" href="/timetable/timetable.png" type="image/x-icon">
+    <style>
+        body {
+            background-color: #f0f0f0;
+        }
+
+        .head {
+            max-width: 800px;
+            margin-bottom: 18px;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            background-color: #ffffffd9;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        }
+
+        .body {
+            max-width: 800px;
+            margin: 15px auto;
+            padding-top: 20px;
+            padding-bottom: 40px;
+            border-radius: 4px 4px 0 0;
+            background-color: #fff;
+            min-height: 800px;
+        }
+
+
+        .mbt {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+            margin: 50px auto;
+        }
+
+        .mbt .btn {
+            width: 160px;
+        }
+
+        .mimg {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+    <title>课程表</title>
+</head>
+
+<body>
+    <!-- head -->
+    <div class="container-fluid head">
+        <h3>管理</h3>
+    </div>
+
+    <!-- body -->
+    <div class="body">
+        <form action="/timetable/admin" method="get">
+            <img class="mimg" src="/timetable/resource/error.png" alt="success">
+            <div class="mbt">
+                <button type="button" class="btn btn-secondary btn-lg">提交失败</button>
+                <button type="submit" class="btn btn-primary btn-lg">再次提交</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
