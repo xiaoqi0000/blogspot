@@ -34,6 +34,7 @@ router.post('/', function (req, res, next) {
                 "classTime": `${val.time}`
             }
             db.get('cla').push(data).write();
+            console.log("添加数据：", data);
         } else if (val.type == 'remove') {
             //删除记录
 
