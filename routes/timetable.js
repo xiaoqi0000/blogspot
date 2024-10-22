@@ -52,14 +52,18 @@ router.post('/', function (req, res, next) {
 
             arr.splice(arr.indexOf(`${val.weeks}`), 1);
             // console.log(arr);
-            db.get('cla').find(cla => {
-                return cla.classWeek.includes(`${val.weeks}`)
-            }).assign({ classWeek: arr }).write();
 
-            // console.log("更改后的数据：", db.get('cla').find(cla => {
-            //     return cla.classTime == `${val.time}` && cla.classDay == `${val.day}` && cla.className == `${val.className}`
-            // }).value());
+            if (arr.length == 0) {
+                console.log("删除数据：", log);
 
+                db.get('cla').remove(log).write();
+            } else {
+                const dbData = db.get('cla').find(cla => {
+                    return cla.classWeek.includes(`${val.weeks}`)
+                }).assign({ classWeek: arr }).write();
+
+                console.log("更改后的数据：", dbData);
+            }
         }
         res.redirect('/timetable/succeed.html');
     } else {
