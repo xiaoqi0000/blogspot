@@ -2,11 +2,10 @@ let express = require('express');
 let router = express.Router();
 const db = require('../lowdb/timetable');
 
-const timetable = require('../json/timetable.json');
-
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-    res.render('timetable', { cla: String(JSON.stringify(timetable)) });
+    let data = db.get("cla").value()
+    res.render('timetable', { cla: String(JSON.stringify({ cla: data })) });
 });
 router.get('/admin', function (req, res, next) {
     res.redirect('/timetable/admin.html');
@@ -58,9 +57,7 @@ router.post('/', function (req, res, next) {
 
                 db.get('cla').remove(log).write();
             } else {
-                const dbData = db.get('cla').find(cla => {
-                    return cla.classWeek.includes(`${val.weeks}`)
-                }).assign({ classWeek: arr }).write();
+                const dbData = db.get('cla').find(log).assign({ classWeek: arr }).write();
 
                 console.log("更改后的数据：", dbData);
             }

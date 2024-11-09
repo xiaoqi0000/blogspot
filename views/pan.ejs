@@ -61,13 +61,6 @@
                     <div class="dropdown-menu" role="menu" aria-labelledby="sitemessage">
                         <ul>
                             <li class="first"><span class="time">2024-9-22 </span><a href="#">成功无捷径，稳步向前行。</a></li>
-                            <% hot.forEach(e=> {%>
-                                <li><span class="time">
-                                        <%=e.time %>
-                                    </span><a href="#">
-                                        <%=e.description %>
-                                    </a></li>
-                                <% }); %>
                         </ul>
                         <div class="more-messages"><a href="#">更多</a></div>
                     </div>
@@ -87,9 +80,11 @@
                             <% content.forEach(e=> {%>
                                 <div class="ajax-load-con content excerpt-one Mborder">
                                     <div class="content-box posts-image-box">
-                                        <a href="../img/kx.jpg" download="">
+                                        <a href="<%=e.path %>" download="">
                                             <img class="Mimg" src="../pan/img/fi.png" alt="文件"></a>
-                                        <span class="Mspan">假装是一个文件</span>
+                                        <span class="Mspan">
+                                            <%=e.name %>
+                                        </span>
                                     </div>
                                 </div>
                                 <% }); %>
