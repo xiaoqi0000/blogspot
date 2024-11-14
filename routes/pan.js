@@ -25,6 +25,9 @@ router.post('/', async function (req, res, next) {
             path: 'http://www.yydsa.top:6400/parser?url=' + fileUrl,
             jsonPath: 'http://www.yydsa.top:6400/json/parser?url=' + fileUrl
         }
+        //删除重复文件
+        db.get('content').remove({ name: fileName }).write()
+
         db.get('content').unshift(data).write()
         console.log('添加文件成功！:', fileName)
         //URL是否合法
