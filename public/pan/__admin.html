@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>文件上传与进度显示</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            margin-bottom: 5px;
+            margin-right: 20px;
+            margin-left: 10px;
+            margin-right: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        progress {
+            width: 50%;
+            height: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>文件上传</h1>
+    <input type="text" id="identityInput">
+    <input type="file" id="fileInput">
+    <button onclick="uploadFile()">上传文件</button>
+    <br>
+    <progress id="progressBar" value="0" max="100"></progress>
+    <p id="status"></p>
+
+    <script>
+        function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const identityInput = document.getElementById('identityInput');
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', `/pan/upload?identity=${identityInput.value}`, true);
+            xhr.upload.onprogress = function (event) {
+                if (event.lengthComputable) {
+                    const percentComplete = (event.loaded / event.total) * 100;
+                    document.getElementById('progressBar').value = percentComplete;
+                    document.getElementById('status').textContent = `上传进度：${percentComplete.toFixed(2)}%`;
+                }
+            };
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    document.getElementById('status').textContent = '文件上传成功！';
+                } else {
+                    document.getElementById('status').textContent = '文件上传失败！';
+                }
+            };
+
+            xhr.send(formData);
+        }
+    </script>
+</body>
+
+</html>

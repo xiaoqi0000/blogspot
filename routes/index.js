@@ -1,19 +1,35 @@
 var express = require('express');
 var router = express.Router();
-const info = require('../json/info.json');
+const { info, user } = require('../mongo/schema');
 
-let db = require('../lowdb/db.js');
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  //获取数据
-let num = db.get('indexNum').value();
-// console.log(num);
+  user.find()
+    .then((list) => {
+      let newItem = list[0]
+      newItem.indexNum += 1
+      //修改数据
+      user.updateOne({
+        _id: newItem._id
+      }, {
+        indexNum: newItem.indexNum
+      }).then((res) => {
+        console.log('修改成功');
+      }).catch((err) => {
+        console.log('修改失败');
+      });
 
-//更改数据
-db.set('indexNum', num + 1).write();
+    })
+    .catch((err) => console.error('查询出错:', err));
 
 
-  res.render('index', info);
+  info.find()
+    .then((users) => {
+      // console.log('查询结果:', users[0]);
+      res.render('index', users[0]);
+    })
+    .catch((err) => console.error('查询出错:', err));
+
 });
 
 module.exports = router;

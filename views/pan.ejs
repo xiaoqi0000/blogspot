@@ -61,13 +61,6 @@
                     <div class="dropdown-menu" role="menu" aria-labelledby="sitemessage">
                         <ul>
                             <li class="first"><span class="time">2024-9-22 </span><a href="#">成功无捷径，稳步向前行。</a></li>
-                            <% hot.forEach(e=> {%>
-                                <li><span class="time">
-                                        <%=e.time %>
-                                    </span><a href="#">
-                                        <%=e.description %>
-                                    </a></li>
-                                <% }); %>
                         </ul>
                         <div class="more-messages"><a href="#">更多</a></div>
                     </div>
@@ -87,20 +80,22 @@
                             <% content.forEach(e=> {%>
                                 <div class="ajax-load-con content excerpt-one Mborder">
                                     <div class="content-box posts-image-box">
-                                        <a href="../pan/resource/xcx.zip" download="">
+                                        <a href="<%=e.path %>" download="">
                                             <img class="Mimg" src="../pan/img/fi.png" alt="文件"></a>
-                                        <span class="Mspan">小程序开发素材</span>
+                                        <span class="Mspan">
+                                            <%=e.name %>
+                                        </span>
                                     </div>
                                 </div>
                                 <% }); %>
                         </div>
                         <div class="clearfix"></div>
 
-                        <div id="ajax-load-posts">
+                        <!-- <div id="ajax-load-posts">
                             <a class="button" href="javascript:void(0);" data-page="1" data-tips="没有数据了" data-loading=""
                                 data-root_dir="/6679" onclick="tag_arcpagelist_multi(this,'index001',5);">点击加载更多</a>
                         </div>
-                        <script type="text/javascript" src="/live/public/static/common/js/tag_arcpagelist.js"></script>
+                        <script type="text/javascript" src="/live/public/static/common/js/tag_arcpagelist.js"></script> -->
                     </div>
 
                 </div>
