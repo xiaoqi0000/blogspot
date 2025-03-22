@@ -50,11 +50,9 @@ for (let m = 0; m < 19; m++) {
     let weekClass = [];
     cla.forEach(i => {
 
-        i.classWeek.forEach(j => {
-            if (j == m) {
-                weekClass.push(i);
-            }
-        })
+        if (i.weeks.includes(m)) {
+            weekClass.push(i);
+        }
     });
     classes.push(weekClass);
 }
@@ -62,9 +60,10 @@ console.log("classes", classes);
 
 
 //今天是第 week 周
+
 let weekNum = (function getWeekNumber() {
     const currentDate = new Date();
-    const firstDayOfSeptember = new Date(2024, 8, 2);
+    const firstDayOfSeptember = new Date(2025, 1, 24);
     const diffTime = currentDate.getTime() - firstDayOfSeptember.getTime();
     const oneDay = 1000 * 60 * 60 * 24;
     const daysDiff = Math.floor(diffTime / oneDay);
@@ -72,7 +71,9 @@ let weekNum = (function getWeekNumber() {
     return weekDiff + 1;
 })()
 
-// console.log("今天是第" + weekNum + "周");
+
+
+console.log("今天是第" + weekNum + "周");
 
 //加载课程表，激活对应课程
 for (let i = 0; i < listElements.length; i++) {
@@ -98,7 +99,8 @@ function loadAllClass(arr) {
     let TimeString = ["<div>08:20 - 10:00</div>", "<div>10:20 - 12:00</div>", "<div>14:10 - 15:50</div>", "<div>16:10 - 17:50</div>", "<div>19:00 - 20:40</div>"]
     for (let i = 1; i < 8; i++) {
         let divLoad = document.querySelector(`#d${i}`);
-        divLoad.innerHTML = `<div class="card-item">
+        divLoad.innerHTML = `
+                    <div class="card-item">
                         <div>08:20 - 10:00</div>
                     </div>
                     <div class="card-item">
@@ -118,17 +120,16 @@ function loadAllClass(arr) {
 
     console.log(arr);
     arr.forEach(i => {
-        let divLoad = document.querySelector(`#d${i.classDay}`);
+        let divLoad = document.querySelector(`#d${i.weekday}`);
         let divChildren = divLoad.children;
-
-        divChildren[i.classTime - 1].innerHTML = `${TimeString[i.classTime - 1]}
-                        <div>《${i.className}》</div>
-                        <div>${i.classTeacher} ${i.classRoom.slice(3)}</div > `;
+        divChildren[(i.classPeriod[0] - 1) / 2].innerHTML = `${TimeString[(i.classPeriod[0] - 1) / 2]}
+                        <div>《${i.courseName}》</div>
+                        <div>${i.teacher} ${i.building}-${i.classroom}</div > `;
 
         //背景颜色
         let bgc = ["#108B96", "#2A6E3F", "#C0392B", "#E58E26", "#192A56"]
-        divChildren[i.classTime - 1].style.backgroundColor = bgc[i.classTime - 1];
-        divChildren[i.classTime - 1].style.color = "#fff";
+        divChildren[(i.classPeriod[0] - 1) / 2].style.backgroundColor = bgc[(i.classPeriod[0] - 1) / 2];
+        divChildren[(i.classPeriod[0] - 1) / 2].style.color = "#fff";
 
     });
 }

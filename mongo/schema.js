@@ -113,6 +113,65 @@ const game = mongoose.model('game', labSchema);
 // 定义autox模型
 const autox = mongoose.model('autox', labSchema);
 
+// 定义课程的 Schema
+const courseSchema = new mongoose.Schema({
+    id: {
+        type: Number,
+        required: true,
+        unique: true // 假设 id 是唯一的
+    },
+    courseId: {
+        type: String,
+        required: true
+    },
+    courseName: {
+        type: String,
+        required: true
+    },
+    classNumber: {
+        type: String,
+        required: true
+    },
+    credits: {
+        type: Number,
+        required: true
+    },
+    teacher: {
+        type: String,
+        required: true
+    },
+    weeks: {
+        type: [Number],
+        required: true
+    },
+    weekday: {
+        type: Number,
+        required: true
+    },
+    classPeriod: {
+        type: String,
+        required: true
+    },
+    campus: {
+        type: String,
+        required: true
+    },
+    building: {
+        type: String,
+        required: true
+    },
+    classroom: {
+        type: String,
+        required: true
+    }
+});
+
+// 创建课程模型
+const Course = mongoose.model('Course', courseSchema);
+
+module.exports = Course;
+
+
 module.exports = {
     user,
     timetable,
@@ -121,5 +180,6 @@ module.exports = {
     lab,
     info,
     game,
-    autox
+    autox,
+    Course
 };

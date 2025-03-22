@@ -1,0 +1,24 @@
+<html><head><link rel="stylesheet" type="text/css" href="https://unpkg.com/vditor@3.8.15/dist/index.css"/>
+<script src="https://unpkg.com/vditor@3.8.15/dist/js/i18n/zh_CN.js"></script>
+<script src="https://unpkg.com/vditor@3.8.15/dist/method.min.js"></script></head>
+<body><div class="vditor-reset" id="preview"><p><span class="language-math">x^y</span></p>
+</div>
+<script>
+    const previewElement = document.getElementById('preview')
+    Vditor.setContentTheme('light', 'https://unpkg.com/vditor@3.8.15/dist/css/content-theme');
+    Vditor.codeRender(previewElement);
+    Vditor.highlightRender({"enable":true,"lineNumber":false,"style":"github"}, previewElement, 'https://unpkg.com/vditor@3.8.15');
+    Vditor.mathRender(previewElement, {
+        cdn: 'https://unpkg.com/vditor@3.8.15',
+        math: {"engine":"KaTeX","inlineDigit":false,"macros":{}},
+    });
+    Vditor.mermaidRender(previewElement, 'https://unpkg.com/vditor@3.8.15', 'classic');
+    Vditor.flowchartRender(previewElement, 'https://unpkg.com/vditor@3.8.15');
+    Vditor.graphvizRender(previewElement, 'https://unpkg.com/vditor@3.8.15');
+    Vditor.chartRender(previewElement, 'https://unpkg.com/vditor@3.8.15', 'classic');
+    Vditor.mindmapRender(previewElement, 'https://unpkg.com/vditor@3.8.15', 'classic');
+    Vditor.abcRender(previewElement, 'https://unpkg.com/vditor@3.8.15');
+    Vditor.mediaRender(previewElement);
+    Vditor.speechRender(previewElement);
+</script>
+<script src="https://unpkg.com/vditor@3.8.15/dist/js/icons/ant.js"></script></body></html>

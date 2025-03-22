@@ -10,3 +10,42 @@
 
 
 
+## 数据库json结构
+
+```json
+{
+    "timestamp":"时间戳",
+    "fileName":"文件名" 
+}
+```
+
+## 接口json结构
+
+```json
+{
+    "code": 200,
+    "msg": "下载成功",
+    "data": {
+        "name": "全部文件",
+        "allDate": [
+            {
+                "date": "8月15日",
+                "allFileName": [
+                    {
+                        "title": "小狗.png"
+                    }
+                ]
+            },
+            {
+                "date": "8月16日",
+                "allFileName": [
+                    {
+                        "title": "音乐1.mp3"
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
+

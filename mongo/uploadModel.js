@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const uploadFileSchema = new mongoose.Schema({
-  date: String,
-  allFileName: [{ title: String }]
+  timestamp: String,
+  fileName: String
 });
 
 const UploadFile = mongoose.model('UploadFile', uploadFileSchema);
 
-module.exports = UploadFile;
+module.exports = { UploadFile };
