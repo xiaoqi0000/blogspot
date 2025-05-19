@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>课程表</title>
+    <script src="/timetable/my2.js"></script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/font-awesome@6.0.0/css/all.min.css" rel="stylesheet"> -->
+    <link rel="shortcut icon" href="/timetable/timetable.png" type="image/x-icon">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4ECDC4',
+                        secondary: '#5A67D8',
+                        accent: '#FF6B6B',
+                        neutral: '#F7FAFC',
+                        'neutral-dark': '#EDF2F7',
+                        'text-primary': '#2D3748',
+                        'text-secondary': '#718096'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <script>
+        function setDataToWindow(data) {
+            // 将 HTML 实体编码转换回正常字符
+            const decodedStr = data.replace(/&#34;/g, '"').replace(/&#39;/g, "'");
+            const obj = JSON.parse(decodedStr);
+            window.myData = obj.cla;
+        }
+        setDataToWindow(`<%=cla %>`);
+
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .card-hover {
+                transition: all 0.2s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            }
+            .class-item {
+                transform-origin: top;
+                transition: all 0.2s ease;
+            }
+            .class-item:active {
+                transform: scale(0.98);
+            }
+            .today-indicator {
+                animation: pulse 2s infinite;
+            }
+            @keyframes pulse {
+                0% {
+                    box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.4);
+                }
+                70% {
+                    box-shadow: 0 0 0 10px rgba(78, 205, 196, 0);
+                }
+                100% {
+                    box-shadow: 0 0 0 0 rgba(78, 205, 196, 0);
+                }
+            }
+        }
+    </style>
+</head>
+
+<body class="font-inter bg-neutral text-text-primary">
+    <!-- 顶部导航 -->
+    <header class="sticky top-0 z-50 bg-primary text-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="fa fa-graduation-cap text-xl mr-2"></i>
+                <h1 class="text-lg font-semibold">我的课程表</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="todayButton" class="bg-white/20 px-3 py-1 rounded-full text-sm flex items-center">
+                    <i class="fa fa-calendar-check-o mr-1"></i>
+                    <span>今日</span>
+                </button>
+                <button id="menuButton" class="text-xl">
+                    <i class="fa fa-bars">菜单</i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 侧边菜单 -->
+    <div id="sideMenu"
+        class="fixed inset-y-0 left-0 transform -translate-x-full w-64 bg-white shadow-lg z-50 transition-transform duration-300 ease-in-out">
+        <div class="p-4 border-b flex justify-between items-center">
+            <h2 class="text-lg font-semibold">课程表设置</h2>
+            <button id="closeMenu" class="text-gray-500">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+        <div class="p-4">
+            <div class="mb-6">
+                <h3 class="text-sm font-medium text-gray-500 mb-2">选择周次</h3>
+                <div id="weekSelector" class="grid grid-cols-4 gap-2">
+                    <!-- 周次按钮将通过JS动态生成 -->
+                </div>
+            </div>
+            <div class="mb-6" style="display: none;">
+                <h3 class="text-sm font-medium text-gray-500 mb-2">视图设置</h3>
+                <div class="flex space-x-2">
+                    <button id="gridViewBtn" class="flex-1 bg-primary text-white py-2 rounded">
+                        <i class="fa fa-th-large mr-1"></i> 网格
+                    </button>
+                    <button id="listViewBtn" class="flex-1 bg-neutral-dark text-gray-700 py-2 rounded">
+                        <i class="fa fa-list mr-1"></i> 列表
+                    </button>
+                </div>
+            </div>
+            <div class="mb-6" style="display: none;">
+                <h3 class="text-sm font-medium text-gray-500 mb-2">学期设置</h3>
+                <select class="w-full p-2 border border-gray-300 rounded">
+                    <option>2025年春季学期</option>
+                    <option>2024年秋季学期</option>
+                    <option>2024年春季学期</option>
+                </select>
+            </div>
+            <button class="w-full bg-secondary text-white py-2 rounded flex items-center justify-center">
+                <i class="fa fa-download mr-2"></i> 导出课表
+            </button>
+        </div>
+    </div>
+
+    <!-- 遮罩层 -->
+    <div id="overlay" class="fixed inset-0 bg-black/50 z-40 hidden"></div>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-5">
+        <!-- 当前周显示 -->
+        <div class="flex justify-between items-center mb-4">
+            <h2 id="currentWeekDisplay" class="text-xl font-semibold">第12周</h2>
+            <span id="currentDate" class="text-sm text-text-secondary"></span>
+        </div>
+
+        <!-- 星期选择器 -->
+        <div class="mb-6 overflow-x-auto scrollbar-hide">
+            <div class="flex space-x-2 pb-2" id="daySelector">
+                <!-- 星期按钮将通过JS动态生成 -->
+            </div>
+        </div>
+
+        <!-- 课程列表 -->
+        <div id="courseList" class="space-y-3">
+            <!-- 课程卡片将通过JS动态生成 -->
+        </div>
+
+        <!-- 空状态 -->
+        <div id="emptyState" class="hidden flex flex-col items-center justify-center py-10">
+            <i class="fa fa-calendar-o text-4xl text-gray-300 mb-3"></i>
+            <p class="text-gray-500">今天没有课程安排</p>
+        </div>
+    </main>
+
+    <!-- 课程详情模态框 -->
+    <div id="courseModal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center">
+        <div class="bg-white rounded-2xl w-full max-w-md mx-4 overflow-hidden shadow-2xl transform transition-all duration-300 scale-95 opacity-0"
+            id="modalContent">
+            <div class="bg-primary text-white p-4">
+                <div class="flex justify-between items-center">
+                    <h3 id="modalCourseName" class="text-lg font-semibold">课程名称</h3>
+                    <button id="closeModalBtn" class="text-white">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-5">
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <div
+                            class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa fa-user text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">授课教师</p>
+                            <p id="modalTeacher" class="font-medium">教师姓名</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div
+                            class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa fa-map-marker text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">上课地点</p>
+                            <p id="modalLocation" class="font-medium">教学楼 - 教室</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div
+                            class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa fa-clock-o text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">上课时间</p>
+                            <p id="modalTime" class="font-medium">周X 第X-X节</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div
+                            class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa fa-calendar text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">上课周次</p>
+                            <p id="modalWeeks" class="font-medium">第X-X周</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div
+                            class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa fa-info-circle text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">课程信息</p>
+                            <p id="modalCourseInfo" class="font-medium">课程代码: 学分: 班级:</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 flex space-x-3">
+                    <button
+                        class="flex-1 py-2 border border-primary text-primary rounded flex items-center justify-center">
+                        <i class="fa fa-bell mr-2"></i> 设置提醒
+                    </button>
+                    <button class="flex-1 py-2 bg-primary text-white rounded flex items-center justify-center">
+                        <i class="fa fa-map mr-2"></i> 导航前往
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>// 课程数据
+        const COURSE_DATA = window.myData;
+
+        // 状态管理
+        const state = {
+            // currentWeek: 12, // 默认第12周
+            currentDay: new Date().getDay(), // 0=周日, 1=周一, ..., 6=周六
+            currentView: 'list',
+            selectedCourse: null
+        };
+
+        // 学期开始日期（需根据实际学期调整）
+        const SEMESTER_START_DATE = new Date(2025, 2, 3); // 2025年3月4日，第1周周一
+
+        // 时间段映射
+        const PERIOD_MAPPING = {
+            '1-2': { startTime: '08:20', endTime: '10:00' },
+            '3-4': { startTime: '10:20', endTime: '12:00' },
+            '5-6': { startTime: '14:10', endTime: '15:50' },
+            '7-8': { startTime: '16:10', endTime: '17:50' },
+            '9-10': { startTime: '19:00', endTime: '20:40' }
+        };
+
+        // 星期映射
+        const WEEKDAY_MAPPING = ['日', '一', '二', '三', '四', '五', '六'];
+
+        // 颜色映射
+        const COLORS = [
+            'bg-blue-50 border-l-4 border-blue-500',
+            'bg-green-50 border-l-4 border-green-500',
+            'bg-yellow-50 border-l-4 border-yellow-500',
+            'bg-red-50 border-l-4 border-red-500',
+            'bg-purple-50 border-l-4 border-purple-500',
+            'bg-pink-50 border-l-4 border-pink-500',
+            'bg-indigo-50 border-l-4 border-indigo-500'
+        ];
+
+        // DOM加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            const weekDiff = Math.ceil((today - SEMESTER_START_DATE) / (7 * 24 * 60 * 60 * 1000));
+            state.currentWeek = Math.max(1, Math.min(20, weekDiff + 1)); // 动态计算周次
+
+            // ✅ 新增：立即更新头部显示
+            document.getElementById('currentWeekDisplay').textContent = `第${state.currentWeek}周`;
+
+            renderCurrentDate();
+            renderWeekSelector();
+            renderDaySelector();
+            renderCourses();
+            setupEventListeners();
+        });
+
+        // 渲染当前日期
+        function renderCurrentDate() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            const formattedDate = now.toLocaleDateString('zh-CN', options);
+            document.getElementById('currentDate').textContent = formattedDate;
+        }
+
+        // 渲染周选择器
+        function renderWeekSelector() {
+            const container = document.getElementById('weekSelector');
+            container.innerHTML = '';
+
+            for (let i = 1; i <= 20; i++) {
+                const weekBtn = document.createElement('button');
+                weekBtn.className = `py-1 rounded-full text-sm font-medium ${i === state.currentWeek ? 'bg-primary text-white' : 'bg-neutral-dark text-gray-700'}`;
+                weekBtn.textContent = `周${i}`;
+                weekBtn.dataset.week = i;
+
+                weekBtn.addEventListener('click', () => {
+                    state.currentWeek = i;
+                    document.getElementById('currentWeekDisplay').textContent = `第${i}周`;
+                    renderWeekSelector();
+                    renderDaySelector(); // 关键修改：周次变化时重新渲染日期选择器
+                    renderCourses();
+                    closeSideMenu();
+                });
+
+                container.appendChild(weekBtn);
+            }
+        }
+
+        // 渲染星期选择器
+        function renderDaySelector() {
+            const container = document.getElementById('daySelector');
+            container.innerHTML = '';
+
+            // 计算今天的日期
+            const today = new Date();
+            const todayWeekday = today.getDay(); // 0=周日, 1=周一, ..., 6=周六
+
+            // 计算当前选中周的第一天和最后一天
+            const currentWeekStart = new Date(SEMESTER_START_DATE);
+            currentWeekStart.setDate(SEMESTER_START_DATE.getDate() + (state.currentWeek - 1) * 7);
+
+            const currentWeekEnd = new Date(currentWeekStart);
+            currentWeekEnd.setDate(currentWeekStart.getDate() + 6);
+
+            // 判断今天是否在当前选中的周内
+            const isTodayInCurrentWeek = today >= currentWeekStart && today <= currentWeekEnd;
+
+            // 注意：这里循环从 0 到 6，对应周日到周六
+            for (let i = 0; i <= 6; i++) {
+                const dayBtn = document.createElement('button');
+                const isToday = isTodayInCurrentWeek && i === todayWeekday;
+
+                dayBtn.className = `min-w-[60px] py-2 px-3 rounded-lg text-sm font-medium ${i === state.currentDay ? 'bg-primary text-white' : 'bg-white text-gray-700 shadow-sm'} ${isToday ? 'today-indicator' : ''}`;
+                dayBtn.innerHTML = `周${WEEKDAY_MAPPING[i]}<br><span class="text-xs">${getDayDate(i, state.currentWeek)}</span>`;
+                dayBtn.dataset.day = i; // 保存 0-6 表示周日到周六
+
+                dayBtn.addEventListener('click', () => {
+                    state.currentDay = i;
+                    renderDaySelector();
+                    renderCourses();
+
+                    // 平滑滚动到顶部
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+
+                container.appendChild(dayBtn);
+            }
+        }
+
+        // 获取星期对应的日期（考虑周次）
+        function getDayDate(weekday, weekNumber) {
+            // 计算指定周次的周一日期
+            const monday = new Date(SEMESTER_START_DATE);
+            monday.setDate(SEMESTER_START_DATE.getDate() + (weekNumber - 2) * 7 - 2);
+
+            // 计算目标日期（weekday: 0=周日, 1=周一, ..., 6=周六）
+            const targetDate = new Date(monday);
+            targetDate.setDate(monday.getDate() + weekday); // 直接加weekday，0=周日
+
+            return `${targetDate.getMonth() + 1}/${targetDate.getDate()}`;
+        }
+
+        // 渲染课程列表
+        function renderCourses() {
+            const container = document.getElementById('courseList');
+            container.innerHTML = '';
+
+            // 注意：将 state.currentDay 转换为课程数据中的格式 (1=周一, 7=周日)
+            const displayWeekday = state.currentDay === 0 ? 7 : state.currentDay;
+
+            // 筛选当前周和当前天的课程
+            const filteredCourses = COURSE_DATA.filter(course =>
+                course.weeks.includes(state.currentWeek) &&
+                course.weekday === displayWeekday // 使用转换后的 weekday
+            );
+
+            // 按时间段排序
+            filteredCourses.sort((a, b) => {
+                const periodA = parseInt(a.classPeriod.split('-')[0]);
+                const periodB = parseInt(b.classPeriod.split('-')[0]);
+                return periodA - periodB;
+            });
+
+            // 渲染课程
+            if (filteredCourses.length === 0) {
+                document.getElementById('emptyState').classList.remove('hidden');
+            } else {
+                document.getElementById('emptyState').classList.add('hidden');
+
+                filteredCourses.forEach(course => {
+                    const colorIndex = course.id % COLORS.length;
+                    const periodInfo = PERIOD_MAPPING[course.classPeriod];
+
+                    const courseCard = document.createElement('div');
+                    courseCard.className = `class-item ${COLORS[colorIndex]} rounded-xl shadow-sm p-4 card-hover`;
+                    courseCard.dataset.courseId = course.id;
+
+                    courseCard.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-semibold text-lg">${course.courseName}</h3>
+                        <p class="text-sm text-text-secondary mt-1">${course.teacher} | ${course.building} ${course.classroom}</p>
+                    </div>
+                    <div class="bg-primary/10 text-primary px-2 py-1 rounded text-xs font-medium">
+                        ${periodInfo.startTime}-${periodInfo.endTime}
+                    </div>
+                </div>
+                <div class="flex items-center mt-3 text-xs text-text-secondary">
+                    <span class="flex items-center mr-4">
+                        <i class="fa fa-calendar-o mr-1"></i> 
+                        ${formatWeekDisplay(course.weeks)}
+                    </span>
+                    <span class="flex items-center">
+                        <i class="fa fa-book mr-1"></i> 
+                        第${course.classPeriod}节
+                    </span>
+                </div>
+            `;
+
+                    courseCard.addEventListener('click', () => {
+                        state.selectedCourse = course;
+                        showCourseModal(course);
+                    });
+
+                    container.appendChild(courseCard);
+                });
+            }
+        }
+
+        // 显示课程详情模态框
+        function showCourseModal(course) {
+            document.getElementById('modalCourseName').textContent = course.courseName;
+            document.getElementById('modalTeacher').textContent = course.teacher;
+            document.getElementById('modalLocation').textContent = `${course.building} ${course.classroom}`;
+
+            const periodInfo = PERIOD_MAPPING[course.classPeriod];
+            document.getElementById('modalTime').textContent = `周${WEEKDAY_MAPPING[course.weekday - 1]} ${periodInfo.startTime}-${periodInfo.endTime} (第${course.classPeriod}节)`;
+
+            document.getElementById('modalWeeks').textContent = formatWeekDisplay(course.weeks);
+            document.getElementById('modalCourseInfo').textContent = `课程代码: ${course.courseId} | 学分: ${course.credits} | 班级: ${course.classNumber}`;
+
+            // 显示模态框并添加动画
+            const modal = document.getElementById('courseModal');
+            const modalContent = document.getElementById('modalContent');
+
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        // 格式化周次显示
+        function formatWeekDisplay(weeks) {
+            if (!weeks || weeks.length === 0) return '';
+
+            weeks.sort((a, b) => a - b);
+            let ranges = [];
+            let start = weeks[0];
+            let end = weeks[0];
+
+            for (let i = 1; i < weeks.length; i++) {
+                if (weeks[i] === end + 1) {
+                    end = weeks[i];
+                } else {
+                    ranges.push(start === end ? `${start}` : `${start}-${end}`);
+                    start = end = weeks[i];
+                }
+            }
+
+            ranges.push(start === end ? `${start}` : `${start}-${end}`);
+            return `第${ranges.join(',')}周`;
+        }
+
+        // 设置事件监听器
+        function setupEventListeners() {
+            // 菜单按钮
+            document.getElementById('menuButton').addEventListener('click', openSideMenu);
+            document.getElementById('closeMenu').addEventListener('click', closeSideMenu);
+            document.getElementById('overlay').addEventListener('click', closeSideMenu);
+
+            // 今日按钮
+            document.getElementById('todayButton').addEventListener('click', goToToday);
+
+            // 关闭模态框
+            document.getElementById('closeModalBtn').addEventListener('click', closeCourseModal);
+            document.getElementById('courseModal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('courseModal')) {
+                    closeCourseModal();
+                }
+            });
+
+            // 视图切换
+            document.getElementById('gridViewBtn').addEventListener('click', () => {
+                state.currentView = 'grid';
+                document.getElementById('gridViewBtn').classList.remove('bg-neutral-dark', 'text-gray-700');
+                document.getElementById('gridViewBtn').classList.add('bg-primary', 'text-white');
+                document.getElementById('listViewBtn').classList.remove('bg-primary', 'text-white');
+                document.getElementById('listViewBtn').classList.add('bg-neutral-dark', 'text-gray-700');
+                // 实现网格视图
+                alert('网格视图功能待实现');
+            });
+
+            document.getElementById('listViewBtn').addEventListener('click', () => {
+                state.currentView = 'list';
+                document.getElementById('listViewBtn').classList.remove('bg-neutral-dark', 'text-gray-700');
+                document.getElementById('listViewBtn').classList.add('bg-primary', 'text-white');
+                document.getElementById('gridViewBtn').classList.remove('bg-primary', 'text-white');
+                document.getElementById('gridViewBtn').classList.add('bg-neutral-dark', 'text-gray-700');
+                renderCourses();
+            });
+        }
+
+        // 打开侧边菜单
+        function openSideMenu() {
+            document.getElementById('sideMenu').classList.remove('-translate-x-full');
+            document.getElementById('overlay').classList.remove('hidden');
+        }
+
+        // 关闭侧边菜单
+        function closeSideMenu() {
+            document.getElementById('sideMenu').classList.add('-translate-x-full');
+            document.getElementById('overlay').classList.add('hidden');
+        }
+
+        // 关闭课程模态框
+        function closeCourseModal() {
+            const modalContent = document.getElementById('modalContent');
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+
+            setTimeout(() => {
+                document.getElementById('courseModal').style.display = 'none';
+            }, 300);
+        }
+
+        // 跳转到今天
+        function goToToday() {
+            // 计算今天是第几周
+            const today = new Date();
+            const weekDiff = Math.ceil((today - SEMESTER_START_DATE) / (7 * 24 * 60 * 60 * 1000));
+            state.currentWeek = Math.max(1, Math.min(20, weekDiff + 1)); // 限制在1-20周
+
+            // 设置当前天
+            state.currentDay = today.getDay(); // 直接使用0-6表示周日到周六
+
+            // 更新UI
+            document.getElementById('currentWeekDisplay').textContent = `第${state.currentWeek}周`;
+            renderWeekSelector();
+            renderDaySelector();
+            renderCourses();
+
+            // 平滑滚动到顶部
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+
+</html>

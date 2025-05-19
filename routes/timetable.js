@@ -36,8 +36,9 @@ router.get('/', function (req, res, next) {
 
     Course.find()
         .then((data) => {
-            console.info(data);
-            res.render('timetable', { cla: String(JSON.stringify({ cla: data })) });
+            // console.info(data);
+            res.render('timetable2', { cla: String(JSON.stringify({ cla: data })) });
+            // res.render('timetable', { cla: String(JSON.stringify({ cla: data })) });
 
         })
         .catch((err) => console.error('查询出错:', err));
