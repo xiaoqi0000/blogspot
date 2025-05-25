@@ -6,7 +6,8 @@ const Schema = mongoose.Schema;
 const user = mongoose.model('user', new Schema({
     indexNum: Number,
     timetableNum: Number,
-    livesNum: Number
+    livesNum: Number,
+    GKDTimeTableNum: Number,
 }));
 
 
